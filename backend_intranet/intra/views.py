@@ -8,6 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q, Sum, Count
 from django.utils import timezone
 from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
 from .models import *
 from .serializers import *

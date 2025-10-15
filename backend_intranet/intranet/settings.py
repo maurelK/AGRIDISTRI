@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-r4i+*j=p66%s&qpzr77@#yyr2&3x1n^aye--l42(sq&922*r+g"
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'agridistri-1.onrender.com', '*.onrender.com']
 
 # Applications
 INSTALLED_APPS = [
@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt.token_blacklist',  # Added for JWT token blacklist
     'corsheaders',
     'django_filters',
     
@@ -29,7 +30,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # Doit être au début
+    'corsheaders.middleware.CorsMiddleware',  # Must be at the top
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -42,10 +43,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "intranet.urls"
 
+# Dossier du build React
+TEMPLATE_DIR = os.path.join(BASE_DIR, '../agridistri-frontend/build')
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [TEMPLATE_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -93,9 +97,9 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, '../agridistri-frontend/build/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Media files
 MEDIA_URL = "/media/"
@@ -115,7 +119,7 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
 }
 
 # CORS settings
@@ -123,11 +127,22 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://agridistri-1.onrender.com",
-    "https://agridistri-frontend.onrender.com",  # si ton frontend React est aussi hébergé sur Render
+    "https://agridistri-frontend.onrender.com",
 ]
 
-
 CORS_ALLOW_CREDENTIALS = True
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://agridistri-1.onrender.com",
+    "https://agridistri-frontend.onrender.com",
+]
+
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS only
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 # JWT Settings
 SIMPLE_JWT = {
@@ -135,17 +150,5 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
-
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, '../agridistri-frontend/build/static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Dossier du build React
-TEMPLATE_DIR = os.path.join(BASE_DIR, '../agridistri-frontend/build')
-TEMPLATES[0]['DIRS'] = [TEMPLATE_DIR]
-
-ALLOWED_HOSTS = ["*"]  # pour Render
