@@ -19,8 +19,6 @@ import {
   TableRow,
   TableSortLabel,
   Button,
-  Chip,
-  useTheme,
 } from '@mui/material';
 import {
   BarChart,
@@ -34,12 +32,9 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
 } from 'recharts';
 import {
   Download,
-  FilterList,
 } from '@mui/icons-material';
 
 // Sample data for demonstration
@@ -114,8 +109,6 @@ const sampleStats = [
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
 const DistributionStats = () => {
-  const theme = useTheme();
-  const [filterPeriod, setFilterPeriod] = useState('all');
   const [filterSite, setFilterSite] = useState('all');
   const [filterIntrant, setFilterIntrant] = useState('all');
   const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'desc' });
