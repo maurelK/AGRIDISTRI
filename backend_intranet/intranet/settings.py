@@ -122,7 +122,10 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://agridistri-1.onrender.com",
+    "https://agridistri-frontend.onrender.com",  # si ton frontend React est aussi hébergé sur Render
 ]
+
 
 CORS_ALLOW_CREDENTIALS = True
 
