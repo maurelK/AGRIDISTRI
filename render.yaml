@@ -2,12 +2,12 @@ services:
   - type: web
     name: agridistri
     env: python
+    rootDir: backend_intranet
     buildCommand: |
-      pip install -r backend_intranet/requirements.txt
-      cd agridistri-frontend && npm install && npm run build && cd ..
-      python backend_intranet/manage.py collectstatic --noinput
-    startCommand: gunicorn intranet.wsgi:application --chdir backend_intranet
+      pip install -r requirements.txt
+      cd ../agridistri-frontend && npm install && npm run build && cd ../backend_intranet
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn intranet.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: intranet.settings
-
