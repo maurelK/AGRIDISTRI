@@ -31,6 +31,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # Doit être au début
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -133,5 +134,15 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "agridistri-frontend/build/static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, '../agridistri-frontend/build/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Dossier du build React
+TEMPLATE_DIR = os.path.join(BASE_DIR, '../agridistri-frontend/build')
+TEMPLATES[0]['DIRS'] = [TEMPLATE_DIR]
+
+ALLOWED_HOSTS = ["*"]  # pour Render
