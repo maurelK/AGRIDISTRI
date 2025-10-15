@@ -12,9 +12,8 @@ import {
   Chip,
   Card,
   CardContent,
-  useTheme,
 } from '@mui/material';
-import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -82,7 +81,6 @@ const sampleSites = [
 ];
 
 const GeoPortal = () => {
-  const theme = useTheme();
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedIntrant, setSelectedIntrant] = useState('all');
   const [filteredSites, setFilteredSites] = useState(sampleSites);
