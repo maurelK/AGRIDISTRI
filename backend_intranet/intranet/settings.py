@@ -132,3 +132,6 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
 }
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "agridistri-frontend/build/static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
