@@ -75,7 +75,7 @@ const BeneficiaryPage = () => {
   return (
     <Box sx={{ p: 3 }}>
       {/* En-tête de page */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', md: 'center' }, mb: 3, gap: 2 }}>
         <Box>
           <Typography variant="h4" gutterBottom>
             Gestion des Bénéficiaires
@@ -84,12 +84,13 @@ const BeneficiaryPage = () => {
             Gérez les bénéficiaires, scannez les cartes et produisez de nouvelles cartes
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 1, width: { xs: '100%', sm: 'auto' } }}>
           <Button
             variant="outlined"
             startIcon={<QrCodeScanner />}
             onClick={() => setScanOpen(true)}
             size="large"
+            fullWidth
           >
             Scanner Carte
           </Button>
@@ -98,6 +99,7 @@ const BeneficiaryPage = () => {
             startIcon={<CreditCard />}
             onClick={() => handleCardProduction()}
             size="large"
+            fullWidth
           >
             Production Cartes
           </Button>
@@ -106,6 +108,7 @@ const BeneficiaryPage = () => {
             startIcon={<Add />}
             onClick={handleAddBeneficiary}
             size="large"
+            fullWidth
           >
             Nouveau Bénéficiaire
           </Button>

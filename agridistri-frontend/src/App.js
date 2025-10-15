@@ -1,5 +1,5 @@
 // src/App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
@@ -18,16 +18,16 @@ import MapsPage from './pages/MapsPage';
 const SIDEBAR_WIDTH = 240;
 
 // Composant Layout simplifié
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children, mobileOpen, handleDrawerToggle }) => {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <Header />
-      <Sidebar width={SIDEBAR_WIDTH} />
-      <Box 
-        component="main" 
-        sx={{ 
+      <Header handleDrawerToggle={handleDrawerToggle} />
+      <Sidebar width={SIDEBAR_WIDTH} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+      <Box
+        component="main"
+        sx={{
           flexGrow: 1,
-          padding: 3,
+          padding: { xs: 1, sm: 2, md: 3 },
           marginTop: '64px', // Pour le header fixe
           backgroundColor: '#f5f5f5',
           minHeight: 'calc(100vh - 64px)',
@@ -41,19 +41,24 @@ const AppLayout = ({ children }) => {
 
 const AppContent = () => {
   const { isAuthenticated } = useAuth();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   return (
     <Router>
       <Routes>
-        <Route 
-          path="/login" 
-          element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />} 
+        <Route
+          path="/login"
+          element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />}
         />
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <AppLayout>
+              <AppLayout mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
                 <DashboardPage />
               </AppLayout>
             </ProtectedRoute>
@@ -63,7 +68,7 @@ const AppContent = () => {
           path="/beneficiaries"
           element={
             <ProtectedRoute>
-              <AppLayout>
+              <AppLayout mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
                 <BeneficiaryPage />
               </AppLayout>
             </ProtectedRoute>
@@ -73,7 +78,7 @@ const AppContent = () => {
           path="/distribution"
           element={
             <ProtectedRoute>
-              <AppLayout>
+              <AppLayout mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
                 <DistributionPage />
               </AppLayout>
             </ProtectedRoute>
@@ -83,7 +88,7 @@ const AppContent = () => {
           path="/statistics"
           element={
             <ProtectedRoute>
-              <AppLayout>
+              <AppLayout mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
                 <StatisticsPage />
               </AppLayout>
             </ProtectedRoute>
@@ -93,7 +98,7 @@ const AppContent = () => {
           path="/maps"
           element={
             <ProtectedRoute>
-              <AppLayout>
+              <AppLayout mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
                 <MapsPage />
               </AppLayout>
             </ProtectedRoute>

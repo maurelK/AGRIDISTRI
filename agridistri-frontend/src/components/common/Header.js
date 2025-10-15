@@ -13,10 +13,11 @@ import {
 import {
   Logout,
   Settings,
+  Menu as MenuIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 
-const Header = () => {
+const Header = ({ handleDrawerToggle }) => {
   const { user, logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -34,24 +35,36 @@ const Header = () => {
   };
 
   return (
-    <AppBar 
-      position="fixed" 
+    <AppBar
+      position="fixed"
       elevation={1}
-      sx={{ 
+      sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
         backgroundColor: 'primary.main'
       }}
     >
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          sx={{ mr: 2, display: { sm: 'none' } }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
           AgriDistriConnect
         </Typography>
-        
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Typography variant="body2">
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'block', sm: 'none' } }}>
+          ADC
+        </Typography>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+          <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' } }}>
             {user?.first_name} {user?.last_name}
           </Typography>
-          
+
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -66,7 +79,7 @@ const Header = () => {
               {user?.first_name?.[0]}{user?.last_name?.[0]}
             </Avatar>
           </IconButton>
-          
+
           <Menu
             id="menu-appbar"
             anchorEl={anchorEl}

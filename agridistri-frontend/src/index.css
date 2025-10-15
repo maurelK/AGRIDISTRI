@@ -21,3 +21,16 @@ code {
 #root {
   min-height: 100vh;
 }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 960px) {
+  .MuiDrawer-paper {
+    position: fixed !important;
+  }
+}

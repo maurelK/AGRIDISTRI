@@ -35,29 +35,15 @@ const menuItems = [
   { text: 'Paramètres', icon: <Settings />, path: '/settings' },
 ];
 
-const Sidebar = ({ width = 240 }) => {
+const Sidebar = ({ width = 240, mobileOpen, handleDrawerToggle }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(true);
 
   const toggleDrawer = () => setOpen(!open);
 
-  return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: open ? width : 70,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: open ? width : 70,
-          boxSizing: 'border-box',
-          backgroundColor: '#f8f9fa',
-          borderRight: '1px solid #e0e0e0',
-          overflowX: 'hidden',
-          transition: 'width 0.3s ease',
-        },
-      }}
-    >
+  const drawerContent = (
+    <>
       {/* Toolbar avec bouton toggle */}
       <Toolbar
         sx={{
@@ -85,7 +71,10 @@ const Sidebar = ({ width = 240 }) => {
           <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               selected={location.pathname === item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                navigate(item.path);
+                if (mobileOpen) handleDrawerToggle(); // Close mobile drawer after navigation
+              }}
               sx={{
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',
@@ -118,7 +107,52 @@ const Sidebar = ({ width = 240 }) => {
       </List>
 
       <Box sx={{ flexGrow: 1 }} />
-    </Drawer>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile Drawer */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          '& .MuiDrawer-paper': {
+            width: width,
+            boxSizing: 'border-box',
+            backgroundColor: '#f8f9fa',
+            borderRight: '1px solid #e0e0e0',
+          },
+        }}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+
+      {/* Desktop Drawer */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          display: { xs: 'none', sm: 'block' },
+          width: open ? width : 70,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: open ? width : 70,
+            boxSizing: 'border-box',
+            backgroundColor: '#f8f9fa',
+            borderRight: '1px solid #e0e0e0',
+            overflowX: 'hidden',
+            transition: 'width 0.3s ease',
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+    </>
   );
 };
 
